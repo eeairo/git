@@ -4122,6 +4122,16 @@ void diff_setup_done(struct diff_options *options)
 		count++;
 	if (count > 1)
 		die(_("--name-only, --name-status, --check and -s are mutually exclusive"));
+	count = 0;
+
+	if (options->pickaxe_opts & DIFF_PICKAXE_KIND_S)
+		count++;
+	if (options->pickaxe_opts & DIFF_PICKAXE_KIND_G)
+		count++;
+	if (options->pickaxe_opts & DIFF_PICKAXE_KIND_OBJFIND)
+		count++;
+	if (count > 1)
+		die(_("-G, -S, and --find-object are mutually exclusive"));
 
 	/*
 	 * Most of the time we can say "there are changes"
